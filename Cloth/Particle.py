@@ -1,19 +1,23 @@
 from Math import Vector 
 from Constants import COLOR
-import pygame
+from OpenGL.GL import *
+from OpenGL.GLU import *
 
 BALL_SIZE = 10
-class RigidBody(object):
+class Particle(object):
   """
   Class to keep track of a ball's location and vector.
   """
-  def __init__(self, position = None, force = None, velocity = None, mass = None, size = None, static = None):
+  def __init__(self, position = None, normal = None, force = None, velocity = None, mass = None, static = None):
     self.position = Vector() if position is None else position
+    self.normals = [] if normal is None else normal
     self.force = Vector() if force is None else force
     self.velocity = Vector() if velocity is None else velocity
     self.mass = 1 if mass is None else mass
-    self.size = BALL_SIZE if size is None else size
     self.static = False if static is None else static
+
+  def __repr__(self):
+    return str(self.position)
       
   def getPixelCoordinates(self, Vector):
     return (int(Vector.x), int(Vector.y))
@@ -21,15 +25,18 @@ class RigidBody(object):
   def applyForce(self, force):
     self.force = self.force + force
 
-  def draw(self, screen):
-    pygame.draw.circle(screen, COLOR.WHITE, self.getPixelCoordinates(self.position), self.size)
+  def getNormal(self):
+    if len(self.normals) is 0:
+      return None
+    normal = Vector()
+    for n in self.normals:
+      normal += n
+    normal /= len(self.normals)
+    normal = normal.normalize()
+    return normal
 
-  def drawDebug(self, screen):
-    position = self.getPixelCoordinates(self.position)
-    forceEnd = map(sum, zip(position, self.getPixelCoordinates(self.force)))
-    velocityEnd = map(sum, zip(position, self.getPixelCoordinates(self.velocity)))
-    pygame.draw.line(screen, COLOR.RED, position, forceEnd)
-    pygame.draw.line(screen, COLOR.GREEN, position, velocityEnd)
+  def draw(self):
+    glVertex3f(self.position.x, self.position.y, self.position.z)
 
   def update(self, deltaTime):
     if self.static:

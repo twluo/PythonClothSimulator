@@ -22,15 +22,19 @@ class Vector(object):
 
   def __div__(self, other):
     if type(other) == type(1.0) or type(other) == type(1):
-      return self * (1/other)
+      return Vector(x = self.x / other, y = self.y / other, z = self.z / other)
+
   def __neg__(self):
     return self * -1
 
-  def __str__(self):
+  def __repr__(self):
     return "<" + str(self.x) + "," + str(self.y) + "," + str(self.z) + "," + str(self.w) + ">"
 
   def dot(self, other):
     return self.x * other.x + self.y * other.y + self.z * other.z
+
+  def cross(self, other):
+    return Vector(x = self.x * other.z - self.z * other.x, y = self.z * other.x - self.x * other.z, z = self.x * other.y - self.y * other.x)
 
   def magnitudeSquared(self):
     return self.dot(self)
