@@ -29,7 +29,7 @@ class Cloth(object):
     for y in xrange(self.numOfParticlesY):
       particles = []
       for x in xrange(self.numOfParticlesX):
-        if y is 0 and x is 0:
+        if y is 0 and (x is 0 or x is self.numOfParticlesX - 1):
           particles.append(Particle(position = Math.Vector(position.x + rowOffset * x, position.y - colOffset * y, position.z), static = True))
         else:
           particles.append(Particle(position = Math.Vector(position.x + rowOffset * x, position.y - colOffset * y, position.z), static = False))

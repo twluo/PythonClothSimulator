@@ -35,7 +35,6 @@ class Triangle(object):
 
   def setNormals(self):
     normal = (self.c.position - self.a.position).cross(self.b.position - self.a.position)
-    normal = -normal
     self.a.normals.append(normal)
     self.b.normals.append(normal)
     self.c.normals.append(normal)

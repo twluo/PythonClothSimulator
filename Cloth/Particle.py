@@ -36,6 +36,8 @@ class Particle(object):
     return normal
 
   def draw(self):
+    normal = self.getNormal()
+    glNormal(normal.x, normal.y, -normal.z)
     glVertex3f(self.position.x, self.position.y, self.position.z)
 
   def update(self, deltaTime):
