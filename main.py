@@ -7,7 +7,8 @@ from Constants import COLOR
 from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
-
+
+
 SCREEN_WIDTH = 700
 SCREEN_HEIGHT = 500
 
@@ -56,7 +57,7 @@ def main():
   # -------- Main Program Loop -----------
   while not done:
     # Limit to 60 frames per second and get dt
-    dt = clock.tick(60)
+    dt = float(clock.tick(144))
     # --- Event Processing
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
@@ -84,11 +85,10 @@ def main():
     glColor(1,0,0)
     cam.draw()
     cloth.applyForce(wind)
-    cloth.update(1/float(dt))
+    cloth.update(1/dt)
     cloth.draw(debug)
     # Go ahead and update the screen with what we've drawn.
     pygame.display.flip()
-    pygame.time.wait(60)
   # Close everything down
   pygame.quit()
  
